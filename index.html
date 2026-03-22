@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nizamuddin Ansari — Senior Software Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --bg2: #111118;
+      --card: #16161f;
+      --border: #2a2a3a;
+      --accent: #6ee7b7;
+      --accent2: #38bdf8;
+      --accent3: #f472b6;
+      --text: #e8e8f0;
+      --muted: #7070a0;
+      --heading: #Syne, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+      line-height: 1.7;
+    }
+
+    /* ─── NOISE OVERLAY ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.35;
+    }
+
+    /* ─── MESH GRADIENT BG ─── */
+    .mesh {
+      position: fixed;
+      top: -30%;
+      left: -20%;
+      width: 80vw;
+      height: 80vh;
+      background: radial-gradient(ellipse at 30% 40%, rgba(110,231,183,0.07) 0%, transparent 60%),
+                  radial-gradient(ellipse at 70% 60%, rgba(56,189,248,0.06) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+      animation: meshFloat 12s ease-in-out infinite alternate;
+    }
+    @keyframes meshFloat {
+      from { transform: translate(0,0) scale(1); }
+      to   { transform: translate(4%, 3%) scale(1.05); }
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 4rem;
+      background: rgba(10,10,15,0.75);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 8rem 4rem 4rem;
+      gap: 4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: rgba(110,231,183,0.08);
+      border: 1px solid rgba(110,231,183,0.2);
+      border-radius: 100px;
+      padding: 0.35rem 0.9rem;
+      margin-bottom: 1.5rem;
+      animation: fadeSlideUp 0.6s ease both;
+    }
+    .hero-tag::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(2.8rem, 5vw, 4.5rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      color: #fff;
+      animation: fadeSlideUp 0.7s 0.1s ease both;
+    }
+    .hero h1 .line2 {
+      display: block;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-sub {
+      margin-top: 1.5rem;
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 440px;
+      animation: fadeSlideUp 0.7s 0.2s ease both;
+    }
+
+    .hero-cta {
+      margin-top: 2.5rem;
+      display: flex;
+      gap: 1rem;
+      animation: fadeSlideUp 0.7s 0.3s ease both;
+    }
+    .btn-primary {
+      padding: 0.85rem 2rem;
+      background: var(--accent);
+      color: #0a0a0f;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.88rem;
+      letter-spacing: 0.02em;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 30px rgba(110,231,183,0.25);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 40px rgba(110,231,183,0.4); }
+    .btn-outline {
+      padding: 0.85rem 2rem;
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: 0.88rem;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ─── PROFILE CARD ─── */
+    .profile-card {
+      position: relative;
+      animation: fadeSlideLeft 0.8s 0.2s ease both;
+    }
+    .profile-img-wrap {
+      position: relative;
+      width: 320px;
+      margin: 0 auto;
+    }
+    .profile-img-placeholder {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      aspect-ratio: 3/4;
+      background: var(--card);
+      border-radius: 22px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      overflow: hidden;
+    }
+    .profile-img-placeholder img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none; /* unhide when image added */
+    }
+    .profile-avatar-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 2rem;
+      color: #0a0a0f;
+    }
+    .profile-img-hint {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-align: center;
+      padding: 0 1.5rem;
+      line-height: 1.6;
+    }
+    .profile-floating-badge {
+      position: absolute;
+      bottom: -1.5rem;
+      right: -1.5rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1rem 1.25rem;
+      z-index: 2;
+      backdrop-filter: blur(10px);
+    }
+    .badge-num {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.8rem;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .badge-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .profile-floating-badge2 {
+      position: absolute;
+      top: 1rem;
+      left: -2rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 0.85rem 1.1rem;
+      z-index: 2;
+    }
+
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeSlideLeft {
+      from { opacity: 0; transform: translateX(32px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    /* ─── STATS ROW ─── */
+    .stats-row {
+      position: relative; z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .stat-item {
+      background: var(--bg);
+      padding: 2rem;
+      text-align: center;
+    }
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 2.5rem;
+      color: #fff;
+      letter-spacing: -0.03em;
+    }
+    .stat-num span { color: var(--accent); }
+    .stat-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 0.25rem;
+    }
+
+    /* ─── SECTIONS ─── */
+    section {
+      position: relative; z-index: 1;
+      padding: 6rem 4rem;
+    }
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      letter-spacing: -0.03em;
+      color: #fff;
+      margin-bottom: 3rem;
+    }
+    .section-title em {
+      font-style: normal;
+      color: var(--accent);
+    }
+
+    /* ─── SKILLS ─── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.25rem;
+    }
+    .skill-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      transition: border-color 0.2s, transform 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .skill-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(110,231,183,0.05), transparent);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .skill-card:hover { border-color: rgba(110,231,183,0.35); transform: translateY(-3px); }
+    .skill-card:hover::before { opacity: 1; }
+    .skill-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      background: rgba(110,231,183,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .skill-card h3 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+    .skill-card p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 1rem;
+    }
+    .tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 100px;
+      background: rgba(56,189,248,0.1);
+      border: 1px solid rgba(56,189,248,0.2);
+      color: var(--accent2);
+    }
+    .tag.green { background: rgba(110,231,183,0.1); border-color: rgba(110,231,183,0.2); color: var(--accent); }
+    .tag.pink { background: rgba(244,114,182,0.1); border-color: rgba(244,114,182,0.2); color: var(--accent3); }
+
+    /* ─── EXPERIENCE ─── */
+    #experience { background: var(--bg2); }
+    .exp-timeline {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .exp-timeline::before {
+      content: '';
+      position: absolute;
+      left: 140px;
+      top: 0; bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, var(--border) 5%, var(--border) 95%, transparent);
+    }
+    .exp-item {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 2.5rem;
+      padding: 2rem 0;
+      position: relative;
+    }
+    .exp-item::after {
+      content: '';
+      position: absolute;
+      left: 136px;
+      top: 2.4rem;
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid var(--bg2);
+      box-shadow: 0 0 10px rgba(110,231,183,0.5);
+    }
+    .exp-date {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      padding-top: 0.35rem;
+      text-align: right;
+    }
+    .exp-content { padding-left: 2rem; }
+    .exp-company {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.35rem;
+    }
+    .exp-role {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #fff;
+      margin-bottom: 0.75rem;
+    }
+    .exp-desc {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+    .exp-tags { margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+    /* ─── TECH STACK ─── */
+    .tech-marquee-wrap {
+      overflow: hidden;
+      margin: 3rem 0;
+      mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    }
+    .tech-marquee {
+      display: flex;
+      gap: 1rem;
+      animation: marquee 22s linear infinite;
+      width: max-content;
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    .tech-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.25rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--text);
+      white-space: nowrap;
+      transition: border-color 0.2s;
+    }
+    .tech-pill:hover { border-color: var(--accent); color: var(--accent); }
+    .tech-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); opacity: 0.6; }
+
+    /* ─── ABOUT / ADD MORE ─── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .about-text p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.8;
+      margin-bottom: 1.25rem;
+    }
+    .add-more-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .add-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent3);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+    .add-card.blue { border-left-color: var(--accent2); }
+    .add-card.green { border-left-color: var(--accent); }
+    .add-icon { font-size: 1.4rem; line-height: 1; }
+    .add-card h4 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: #fff;
+      margin-bottom: 0.25rem;
+    }
+    .add-card p {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* ─── CONTACT ─── */
+    #contact { background: var(--bg2); }
+    .contact-wrap {
+      max-width: 680px;
+      text-align: center;
+      margin: 0 auto;
+    }
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+      flex-wrap: wrap;
+    }
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.85rem 1.75rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      text-decoration: none;
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      transition: border-color 0.2s, transform 0.2s, color 0.2s;
+    }
+    .contact-link:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      position: relative; z-index: 1;
+      text-align: center;
+      padding: 2rem 4rem;
+      border-top: 1px solid var(--border);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 2rem; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; padding: 7rem 2rem 4rem; text-align: center; }
+      .hero-sub { margin-inline: auto; }
+      .hero-cta { justify-content: center; }
+      .profile-card { order: -1; }
+      .profile-img-wrap { width: 240px; }
+      .stats-row { grid-template-columns: repeat(2, 1fr); }
+      section { padding: 4rem 2rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .exp-timeline::before { left: 0; }
+      .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+      .exp-item::after { display: none; }
+      .exp-content { padding-left: 0; }
+      .exp-date { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="mesh"></div>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">NA<span>.</span></div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-content">
+      <h1>
+        Nizamuddin
+        <span class="line2">Ansari</span>
+      </h1>
+      <p class="hero-sub">
+        Senior Software Engineer specializing in <strong>Rust</strong>, <strong>Move</strong>, and <strong>Blockchain</strong> development — building the decentralized future on Aptos, Supra & Sui networks.
+      </p>
+      <div class="hero-cta">
+        <a href="#contact" class="btn-primary">Get in Touch</a>
+        <a href="#experience" class="btn-outline">View Work</a>
+      </div>
+    </div>
+
+    <div class="profile-card">
+      <div class="profile-img-wrap">
+          <!--
+            ✏️ TO ADD YOUR PHOTO:
+            1. Replace this entire div content with:
+               <img src="your-photo.jpg" alt="Nizamuddin Ansari">
+            2. Or use a hosted URL:
+               <img src="https://your-domain.com/photo.jpg" alt="Nizamuddin Ansari">
+          -->
+          <img src="nizamuddin-ansari.jpeg" alt="Nizamuddin Ansari">
+        <div class="profile-floating-badge">
+          <div class="badge-num">7+</div>
+          <div class="badge-label">Years Exp.</div>
+        </div>
+        <div class="profile-floating-badge2">
+          <div style="font-family:'DM Mono',monospace;font-size:0.68rem;color:var(--muted);margin-bottom:0.2rem;">CURRENT</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.85rem;color:#fff;">Supra</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- STATS ROW -->
+  <div class="stats-row">
+    <div class="stat-item">
+      <div class="stat-num">7<span>+</span></div>
+      <div class="stat-label">Years in IT</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">3.5<span>+</span></div>
+      <div class="stat-label">Years in Rust & Blockchain</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">3</div>
+      <div class="stat-label">Networks (Aptos, Supra, Sui)</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">∞</div>
+      <div class="stat-label">Problems Solved</div>
+    </div>
+  </div>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-label">What I bring</div>
+    <div class="section-title">Core <em>Expertise</em></div>
+
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-icon">⛓️</div>
+        <h3>Blockchain Development</h3>
+        <p>Writing and deploying smart contracts on Aptos, Supra, and Sui using Move language. Deep understanding of decentralized protocols.</p>
+        <div class="skill-tags">
+          <span class="tag green">Move</span>
+          <span class="tag green">Aptos</span>
+          <span class="tag green">Sui</span>
+          <span class="tag green">Supra</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🦀</div>
+        <h3>Rust Engineering</h3>
+        <p>3.5+ years building robust, memory-safe systems in Rust. From CLI tools to complex backend services.</p>
+        <div class="skill-tags">
+          <span class="tag">Rust</span>
+          <span class="tag">Cargo</span>
+          <span class="tag">Systems</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🌐</div>
+        <h3>Backend & APIs</h3>
+        <p>Extensive experience building scalable REST APIs with Node.js. Architecture, design, and performance optimization.</p>
+        <div class="skill-tags">
+          <span class="tag">Node.js</span>
+          <span class="tag">TypeScript</span>
+          <span class="tag">REST API</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🗄️</div>
+        <h3>Databases</h3>
+        <p>Solid hands-on experience with both SQL and NoSQL databases, including schema design and query optimization.</p>
+        <div class="skill-tags">
+          <span class="tag pink">MongoDB</span>
+          <span class="tag pink">MySQL</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🖥️</div>
+        <h3>Frontend</h3>
+        <p>Proficient in Angular and modern JavaScript frameworks for building dynamic, responsive user interfaces.</p>
+        <div class="skill-tags">
+          <span class="tag">Angular</span>
+          <span class="tag">TypeScript</span>
+          <span class="tag">Ionic</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🔧</div>
+        <h3>DevOps & Tools</h3>
+        <p>Version control, team collaboration, Agile workflows, and development tooling across Linux and Windows environments.</p>
+        <div class="skill-tags">
+          <span class="tag">Git</span>
+          <span class="tag">GitHub</span>
+          <span class="tag">GitLab</span>
+          <span class="tag">Agile</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- TECH MARQUEE -->
+    <div class="tech-marquee-wrap">
+      <div class="tech-marquee">
+        <div class="tech-pill"><span class="tech-dot"></span>Rust</div>
+        <div class="tech-pill"><span class="tech-dot"></span>Move Language</div>
+        <div class="tech-pill"><span class="tech-dot"></span>Blockchain</div>
+        <div class="tech-pill"><span class="tech-dot"></span>Node.js</div>
+        <div class="tech-pill"><span class="tech-dot"></span>TypeScript</div>
+        <div class="tech-pill"><span class="tech-dot"></span>Angular</div>
+        <div class="tech-pill"><span class="tech-dot"></span>MongoDB</div>
+        <div class="tech-pill"><span class="tech-dot"></span>Smart Contracts</div>
+        <div class="tech-pill"><span class="tech-dot"></span>Aptos</div>
+        <div class="tech-pill"><span class="tech-dot"></span>Sui Network</div>
+        <div class="tech-pill"><span class="tech-dot"></span>MySQL</div>
+        <div class="tech-pill"><span class="tech-dot"></span>REST APIs</div>
+        <div class="tech-pill"><span class="tech-dot"></span>JavaScript</div>
+        <!-- repeat for seamless loop -->
+        <div class="tech-pill"><span class="tech-dot"></span>Rust</div>
+        <div class="tech-pill"><span class="tech-dot"></span>Move Language</div>
+        <div class="tech-pill"><span class="tech-dot"></span>Blockchain</div>
+        <div class="tech-pill"><span class="tech-dot"></span>Node.js</div>
+        <div class="tech-pill"><span class="tech-dot"></span>TypeScript</div>
+        <div class="tech-pill"><span class="tech-dot"></span>Angular</div>
+        <div class="tech-pill"><span class="tech-dot"></span>MongoDB</div>
+        <div class="tech-pill"><span class="tech-dot"></span>Smart Contracts</div>
+        <div class="tech-pill"><span class="tech-dot"></span>Aptos</div>
+        <div class="tech-pill"><span class="tech-dot"></span>Sui Network</div>
+        <div class="tech-pill"><span class="tech-dot"></span>MySQL</div>
+        <div class="tech-pill"><span class="tech-dot"></span>REST APIs</div>
+        <div class="tech-pill"><span class="tech-dot"></span>JavaScript</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-label">Career journey</div>
+    <div class="section-title">Work <em>Experience</em></div>
+
+    <div class="exp-timeline">
+      <div class="exp-item">
+        <div class="exp-date">Jun 2022 – Present</div>
+        <div class="exp-content">
+          <div class="exp-company">Supra · Remote</div>
+          <div class="exp-role">Senior Software Engineer</div>
+          <p class="exp-desc">
+            Working on cutting-edge blockchain infrastructure and smart contract development using Move language on the Supra network. Contributing to the core protocol and developer tooling.
+          </p>
+          <div class="exp-tags">
+            <span class="tag green">Move</span>
+            <span class="tag green">Blockchain</span>
+            <span class="tag green">Supra</span>
+            <span class="tag">Rust</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-date">Oct 2020 – Present</div>
+        <div class="exp-content">
+          <div class="exp-company">Codezeros · Ahmedabad</div>
+          <div class="exp-role">Senior Software Engineer</div>
+          <p class="exp-desc">
+            Leading development initiatives, guiding colleagues through technical challenges, and owning end-to-end feature delivery. Responsible for database design and direct client communication.
+          </p>
+          <div class="exp-tags">
+            <span class="tag">Node.js</span>
+            <span class="tag">TypeScript</span>
+            <span class="tag">MongoDB</span>
+            <span class="tag pink">Team Lead</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-date">Nov 2019 – Mar 2020</div>
+        <div class="exp-content">
+          <div class="exp-company">Codezeros · Dubai, UAE</div>
+          <div class="exp-role">Development Team Lead</div>
+          <p class="exp-desc">
+            Led a development team on-site in Dubai. Managed project execution from requirement gathering to delivery. Mentored team members and maintained client relationships.
+          </p>
+          <div class="exp-tags">
+            <span class="tag pink">Leadership</span>
+            <span class="tag">Project Mgmt</span>
+            <span class="tag">Client Comms</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-date">Feb 2019 – Oct 2019</div>
+        <div class="exp-content">
+          <div class="exp-company">Codezeros · Ahmedabad</div>
+          <div class="exp-role">Junior Software Engineer</div>
+          <p class="exp-desc">
+            Built and integrated REST APIs, set up servers and databases, and collaborated within a team under senior leadership on integration and maintenance projects.
+          </p>
+          <div class="exp-tags">
+            <span class="tag">REST APIs</span>
+            <span class="tag">Node.js</span>
+            <span class="tag">MongoDB</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-date">Oct 2018 – Jan 2019</div>
+        <div class="exp-content">
+          <div class="exp-company">Codezeros · Ahmedabad</div>
+          <div class="exp-role">Trainee</div>
+          <p class="exp-desc">
+            Laid the foundation in core web technologies — JavaScript, jQuery, Node.js, TypeScript, Angular, HTML/CSS, Bootstrap, MongoDB, and MySQL.
+          </p>
+          <div class="exp-tags">
+            <span class="tag">JavaScript</span>
+            <span class="tag">Angular</span>
+            <span class="tag">HTML/CSS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-text" style="max-width:680px;">
+      <div class="section-label">About me</div>
+      <div class="section-title" style="margin-bottom:1.5rem;">The person <em>behind the code</em></div>
+      <p>
+        I'm a senior engineer from Ahmedabad, Gujarat, with 7+ years of experience building software that matters. My journey went from JavaScript to Rust to the cutting edge of blockchain — always chasing hard problems.
+      </p>
+      <p>
+        Currently at Supra, I write smart contracts in Move language and work on the infrastructure powering decentralized applications. I thrive in environments where performance and correctness are non-negotiable.
+      </p>
+      <p>
+        I graduated with a B.E. in Information Technology from SAL College of Engineering (2014–2018) and was recognized as a <strong style="color:var(--accent)">Rising Star</strong> early in my career.
+      </p>
+      <p>
+        I'm fluent in Gujarati, Hindi, and English — comfortable in international environments having led teams in Dubai.
+      </p>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-wrap">
+      <div class="section-label">Let's connect</div>
+      <div class="section-title">Get in <em>Touch</em></div>
+      <p style="color:var(--muted);font-size:0.95rem;line-height:1.8;">
+        Feel free to reach out — whether you want to discuss blockchain, Rust, or just say hi.
+      </p>
+      <div class="contact-links">
+        <a href="mailto:nizamuddin33ansari@gmail.com" class="contact-link">
+          <span>✉️</span> nizamuddin33ansari@gmail.com
+        </a>
+        <a href="https://www.linkedin.com/in/nizamuddinansari" target="_blank" class="contact-link">
+          <span>💼</span> LinkedIn
+        </a>
+        <a href="https://nizamuddin-ansari.com" class="contact-link">
+          <span>🌐</span> nizamuddin-ansari.com
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 Nizamuddin Ansari · Built with care · Ahmedabad, India 🇮🇳</p>
+  </footer>
+
+</body>
+</html>
